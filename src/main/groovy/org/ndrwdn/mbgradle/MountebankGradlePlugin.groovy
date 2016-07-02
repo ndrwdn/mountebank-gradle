@@ -3,6 +3,9 @@ package org.ndrwdn.mbgradle
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
+import static org.ndrwdn.mbgradle.MbPathUtil.mbDirectory
+import static org.ndrwdn.mbgradle.MbPathUtil.mbPidFile
+
 class MountebankGradlePlugin implements Plugin<Project> {
 
     @Override
@@ -11,14 +14,14 @@ class MountebankGradlePlugin implements Plugin<Project> {
 
         project.task(MountebankAcquisitionTask.NAME, type: MountebankAcquisitionTask) {
             outputs.upToDateWhen {
-                new File(project.mountebank.extractPath as String).exists()
+                mbDirectory(project).exists()
             }
         }
 
         project.task(MountebankStartTask.NAME, type: MountebankStartTask) {
             dependsOn MountebankAcquisitionTask.NAME
             outputs.upToDateWhen {
-                new File(project.mountebank.extractPath as String, 'mb.pid').exists()
+                mbPidFile(project).exists()
             }
         }
 
@@ -26,7 +29,7 @@ class MountebankGradlePlugin implements Plugin<Project> {
         project.task(MountebankStopTask.NAME, type: MountebankStopTask) {
             dependsOn MountebankAcquisitionTask.NAME
             outputs.upToDateWhen {
-                !new File(project.mountebank.extractPath as String, 'mb.pid').exists()
+                !mbPidFile(project).exists()
             }
         }
 

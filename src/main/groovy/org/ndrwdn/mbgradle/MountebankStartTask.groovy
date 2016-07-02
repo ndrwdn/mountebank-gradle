@@ -7,6 +7,8 @@ import java.util.concurrent.*
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS
 import static java.util.concurrent.TimeUnit.SECONDS
+import static org.ndrwdn.mbgradle.MbPathUtil.mbDirectory
+import static org.ndrwdn.mbgradle.MbPathUtil.mbPidFile
 
 class MountebankStartTask extends DefaultTask {
 
@@ -16,10 +18,10 @@ class MountebankStartTask extends DefaultTask {
 
     @TaskAction
     def start() {
-        if (!isStarted()) {
+        if (isStopped()) {
             new ProcessBuilder()
                     .command('/usr/bin/env', 'bash', 'mb')
-                    .directory(new File(project.mountebank.extractPath as String))
+                    .directory(mbDirectory(project))
                     .start()
 
             waitForStartOrTimeout()
@@ -31,7 +33,7 @@ class MountebankStartTask extends DefaultTask {
             executor.submit(new Callable() {
                 @Override
                 call() {
-                    while (!isStarted()) {
+                    while (isStopped()) {
                         Thread.sleep(100)
                     }
                 }
@@ -42,7 +44,7 @@ class MountebankStartTask extends DefaultTask {
         }
     }
 
-    private boolean isStarted() {
-        new File(project.mountebank.extractPath as String, 'mb.pid').exists()
+    private boolean isStopped() {
+        !mbPidFile(project).exists()
     }
 }

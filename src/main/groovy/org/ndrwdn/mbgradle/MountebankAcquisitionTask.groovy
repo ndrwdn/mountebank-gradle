@@ -8,12 +8,12 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 
 import java.nio.file.Files
-import java.nio.file.Paths
 import java.util.zip.GZIPInputStream
 
 import static groovyx.net.http.ContentType.BINARY
 import static groovyx.net.http.Method.GET
 import static org.ndrwdn.mbgradle.FileModeUtil.isExecutable
+import static org.ndrwdn.mbgradle.MbPathUtil.mbPath
 import static org.ndrwdn.mbgradle.OsUtil.determineMbOs
 
 class MountebankAcquisitionTask extends DefaultTask {
@@ -60,7 +60,13 @@ class MountebankAcquisitionTask extends DefaultTask {
                     }
                 }
 
-                Files.move(mbDownloadPath.resolve("mountebank-v1.5.1-${determineMbOs()}-x64"), Paths.get(project.mountebank.extractPath))
+                mbPath(project)
+                        .toFile()
+                        .parentFile
+                        .mkdirs()
+                Files.move(
+                        mbDownloadPath.resolve("mountebank-v1.5.1-${determineMbOs()}-x64"),
+                        mbPath(project))
             }
         }
     }
