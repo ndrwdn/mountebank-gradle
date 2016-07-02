@@ -14,6 +14,7 @@ import java.util.zip.GZIPInputStream
 import static groovyx.net.http.ContentType.BINARY
 import static groovyx.net.http.Method.GET
 import static org.ndrwdn.mbgradle.FileModeUtil.isExecutable
+import static org.ndrwdn.mbgradle.OsUtil.determineMbOs
 
 class MountebankAcquisitionTask extends DefaultTask {
 
@@ -23,7 +24,7 @@ class MountebankAcquisitionTask extends DefaultTask {
     def acquire() {
         def http = new HTTPBuilder('https://s3.amazonaws.com')
         http.request(GET, BINARY) { req ->
-            uri.path = '/mountebank/v1.5/mountebank-v1.5.1-darwin-x64.tar.gz'
+            uri.path = "/mountebank/v1.5/mountebank-v1.5.1-${determineMbOs()}-x64.tar.gz"
 
             response.success = { HttpResponseDecorator resp, InputStream content ->
                 def mbDownloadPath = project
@@ -59,7 +60,7 @@ class MountebankAcquisitionTask extends DefaultTask {
                     }
                 }
 
-                Files.move(mbDownloadPath.resolve('mountebank-v1.5.1-darwin-x64'), Paths.get(project.mountebank.extractPath))
+                Files.move(mbDownloadPath.resolve("mountebank-v1.5.1-${determineMbOs()}-x64"), Paths.get(project.mountebank.extractPath))
             }
         }
     }
