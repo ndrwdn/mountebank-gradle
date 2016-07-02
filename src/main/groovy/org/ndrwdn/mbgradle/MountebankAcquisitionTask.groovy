@@ -1,9 +1,7 @@
 package org.ndrwdn.mbgradle
 
-import groovyx.net.http.ContentType
 import groovyx.net.http.HTTPBuilder
 import groovyx.net.http.HttpResponseDecorator
-import groovyx.net.http.Method
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream
 import org.gradle.api.DefaultTask
@@ -13,14 +11,16 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.zip.GZIPInputStream
 
-import static FileModeUtil.isExecutable
+import static groovyx.net.http.ContentType.BINARY
+import static groovyx.net.http.Method.GET
+import static org.ndrwdn.mbgradle.FileModeUtil.isExecutable
 
 class MountebankAcquisitionTask extends DefaultTask {
 
     @TaskAction
     def acquire() {
         def http = new HTTPBuilder('https://s3.amazonaws.com')
-        http.request(Method.GET, ContentType.BINARY) { req ->
+        http.request(GET, BINARY) { req ->
             uri.path = '/mountebank/v1.5/mountebank-v1.5.1-darwin-x64.tar.gz'
 
             response.success = { HttpResponseDecorator resp, InputStream content ->
