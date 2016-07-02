@@ -17,6 +17,8 @@ import static org.ndrwdn.mbgradle.FileModeUtil.isExecutable
 
 class MountebankAcquisitionTask extends DefaultTask {
 
+    public static final String NAME = 'acquireMountebank'
+
     @TaskAction
     def acquire() {
         def http = new HTTPBuilder('https://s3.amazonaws.com')
