@@ -22,5 +22,13 @@ class MountebankGradlePlugin implements Plugin<Project> {
             }
         }
 
+
+        project.task(MountebankStopTask.NAME, type: MountebankStopTask) {
+            dependsOn MountebankAcquisitionTask.NAME
+            outputs.upToDateWhen {
+                !new File(project.mountebank.extractPath as String, 'mb.pid').exists()
+            }
+        }
+
     }
 }
