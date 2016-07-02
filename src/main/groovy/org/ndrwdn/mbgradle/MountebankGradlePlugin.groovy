@@ -8,6 +8,8 @@ class MountebankGradlePlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         project.extensions.create('mountebank', MountebankPluginExtension)
-        project.task('acquireMountebank', type: MountebankAcquisitionTask)
+        project
+                .task('acquireMountebank', type: MountebankAcquisitionTask)
+                .outputs.upToDateWhen { new File(project.mountebank.extractPath as String).exists() }
     }
 }
