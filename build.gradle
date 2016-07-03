@@ -1,6 +1,7 @@
 plugins {
     id 'groovy'
     id 'maven-publish'
+    id "com.gradle.plugin-publish" version "0.9.4"
 }
 
 group = 'org.ndrwdn'
@@ -34,6 +35,20 @@ publishing {
             artifact sourceJar {
                 classifier "sources"
             }
+        }
+    }
+}
+
+pluginBundle {
+    website = 'https://github.com/ndrwdn/mountebank-gradle'
+    vcsUrl = 'https://github.com/ndrwdn/mountebank-gradle'
+    description = 'A Gradle plugin to manage Mountebank'
+    tags = ['mountebank', 'test']
+
+    plugins {
+        mountebank {
+            id = "${group}.${name}"
+            displayName = 'A Gradle plugin to manage Mountebank'
         }
     }
 }
