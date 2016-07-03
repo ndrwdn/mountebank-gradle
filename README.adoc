@@ -1,0 +1,8 @@
+mountebank-gradle
+=================
+
+mountebank-gradle is a https://plugins.gradle.org/[Gradle plugin] to manage http://www.mbtest.org/[Mountebank].
+It provides tasks to download & extract, start, and stop MB.
+
+**Warning:**
+Consider this alpha quality
