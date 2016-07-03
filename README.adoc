@@ -1,6 +1,8 @@
 mountebank-gradle
 =================
 
+image:https://travis-ci.org/ndrwdn/mountebank-gradle.svg?branch=master["Build Status", link="https://travis-ci.org/ndrwdn/mountebank-gradle"]
+
 mountebank-gradle is a https://plugins.gradle.org/[Gradle plugin] to manage http://www.mbtest.org/[Mountebank].
 It provides tasks to download & extract, start, and stop MB.
 
