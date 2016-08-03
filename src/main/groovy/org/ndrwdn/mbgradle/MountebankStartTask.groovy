@@ -6,7 +6,6 @@ import org.gradle.api.tasks.TaskAction
 import java.util.concurrent.*
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS
-import static java.util.concurrent.TimeUnit.SECONDS
 import static org.ndrwdn.mbgradle.MbPathUtil.mbDirectory
 import static org.ndrwdn.mbgradle.MbPathUtil.mbPidFile
 
@@ -38,7 +37,7 @@ class MountebankStartTask extends DefaultTask {
                     }
                 }
             })
-            .get(5, SECONDS)
+            .get(project.mountebank.startTimeout, MILLISECONDS)
         } catch (TimeoutException e) {
             throw new RuntimeException('Mountebank failed to start.', e)
         }
