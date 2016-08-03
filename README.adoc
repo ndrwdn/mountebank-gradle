@@ -8,3 +8,10 @@ It provides tasks to download & extract, start, and stop MB.
 
 **Warning:**
 Consider this alpha quality
+
+=== Example configuration
+[source,groovy]
+mountebank {
+    startTimeout = 3500
+    stopTimeout = 2500
+}
