@@ -24,7 +24,7 @@ class MountebankAcquisitionTask extends DefaultTask {
     def acquire() {
         def http = new HTTPBuilder('https://s3.amazonaws.com')
         http.request(GET, BINARY) { req ->
-            uri.path = "/mountebank/v1.5/mountebank-v1.5.1-${determineMbOs()}-x64.tar.gz"
+            uri.path = "/mountebank/v1.9/mountebank-v1.9.0-${determineMbOs()}-x64.tar.gz"
 
             response.success = { HttpResponseDecorator resp, InputStream content ->
                 def mbDownloadPath = project
@@ -33,7 +33,7 @@ class MountebankAcquisitionTask extends DefaultTask {
                         .resolve('tmp')
                 mbDownloadPath.toFile().mkdirs()
 
-                def mbTar = new TarArchiveInputStream(new GZIPInputStream(content))
+                def mbTar = n   ew TarArchiveInputStream(new GZIPInputStream(content))
                 for (TarArchiveEntry entry = mbTar.nextTarEntry; entry != null; entry = mbTar.nextTarEntry) {
                     def extractFile = mbDownloadPath
                             .resolve(entry.name)
