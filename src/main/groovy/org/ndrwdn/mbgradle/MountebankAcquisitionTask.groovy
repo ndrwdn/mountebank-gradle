@@ -33,7 +33,7 @@ class MountebankAcquisitionTask extends DefaultTask {
                         .resolve('tmp')
                 mbDownloadPath.toFile().mkdirs()
 
-                def mbTar = n   ew TarArchiveInputStream(new GZIPInputStream(content))
+                def mbTar = new TarArchiveInputStream(new GZIPInputStream(content))
                 for (TarArchiveEntry entry = mbTar.nextTarEntry; entry != null; entry = mbTar.nextTarEntry) {
                     def extractFile = mbDownloadPath
                             .resolve(entry.name)
