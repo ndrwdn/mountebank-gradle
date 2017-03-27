@@ -19,12 +19,20 @@ class MountebankStartTask extends DefaultTask {
     def start() {
         if (isStopped()) {
             new ProcessBuilder()
-                    .command('/usr/bin/env', 'bash', 'mb')
+                    .command(mbCommand())
                     .directory(mbDirectory(project))
                     .start()
 
             waitForStartOrTimeout()
         }
+    }
+
+    private List<String> mbCommand() {
+        List<String> command = ['/usr/bin/env', 'bash', 'mb']
+        if (project.mountebank.allowInjection) {
+            command << '--allowInjection'
+        }
+        command
     }
 
     private waitForStartOrTimeout() {
