@@ -19,12 +19,15 @@ import static org.ndrwdn.mbgradle.OsUtil.determineMbOs
 class MountebankAcquisitionTask extends DefaultTask {
 
     public static final String NAME = 'acquireMountebank'
+    public static final String MB_MAJOR_VERSION = '1.9'
+    public static final String MB_MINOR_VERSION = '0'
+    public static final String MB_FULL_VERSION = "$MB_MAJOR_VERSION.$MB_MINOR_VERSION"
 
     @TaskAction
     def acquire() {
         def http = new HTTPBuilder('https://s3.amazonaws.com')
         http.request(GET, BINARY) { req ->
-            uri.path = "/mountebank/v1.9/mountebank-v1.9.0-${determineMbOs()}-x64.tar.gz"
+            uri.path = "/mountebank/v$MB_MAJOR_VERSION/mountebank-v$MB_FULL_VERSION-${determineMbOs()}-x64.tar.gz"
 
             response.success = { HttpResponseDecorator resp, InputStream content ->
                 def mbDownloadPath = project
@@ -65,7 +68,7 @@ class MountebankAcquisitionTask extends DefaultTask {
                         .parentFile
                         .mkdirs()
                 Files.move(
-                        mbDownloadPath.resolve("mountebank-v1.5.1-${determineMbOs()}-x64"),
+                        mbDownloadPath.resolve("mountebank-v$MB_FULL_VERSION-${determineMbOs()}-x64"),
                         mbPath(project))
             }
         }
