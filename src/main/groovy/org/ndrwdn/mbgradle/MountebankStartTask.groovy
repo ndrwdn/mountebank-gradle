@@ -6,6 +6,7 @@ import org.gradle.api.tasks.TaskAction
 import java.util.concurrent.*
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS
+import static org.ndrwdn.mbgradle.MbArgUtil.buildCliArguments
 import static org.ndrwdn.mbgradle.MbPathUtil.mbDirectory
 import static org.ndrwdn.mbgradle.MbPathUtil.mbPidFile
 
@@ -19,7 +20,7 @@ class MountebankStartTask extends DefaultTask {
     def start() {
         if (isStopped()) {
             new ProcessBuilder()
-                    .command(mbCommand())
+                    .command(*mbCommand())
                     .directory(mbDirectory(project))
                     .start()
 
@@ -29,9 +30,7 @@ class MountebankStartTask extends DefaultTask {
 
     private List<String> mbCommand() {
         List<String> command = ['/usr/bin/env', 'bash', 'mb']
-        if (project.mountebank.allowInjection) {
-            command << '--allowInjection'
-        }
+        command.addAll(buildCliArguments(project))
         command
     }
 
